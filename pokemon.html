@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>PokeAPI Example</title>
+  </head>
+  <body>
+    <h1 id="poke-name">Loading...</h1>
+    <img id="poke-img" src="" alt="Pokemon" width="200" />
+    <button type="button" id="poke-button" onclick="getRandomPokemon()">
+      Get Random Pokémon
+    </button>
+
+    <script>
+      getRandomPokemon();
+      const button = document.getElementById("poke-button");
+
+      function getRandomPokemon() {
+        const randomId = Math.floor(Math.random() * 898) + 1; // Random Pokémon ID from 1 to 898
+        const endpoint = "https://pokeapi.co/api/v2/pokemon/" + randomId; // Example endpoint for Bulbasaur
+
+        fetch(endpoint)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            document.getElementById("poke-name").textContent = data.name;
+            document.getElementById("poke-img").src =
+              data.sprites.front_default;
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            document.getElementById("poke-name").textContent =
+              "Error loading Pokémon";
+          });
+      }
+    </script>
+  </body>
+</html>

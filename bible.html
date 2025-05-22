@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>John Book</h1>
+    <h2 id="bible-verse">John Chapter Here</h2>
+    <br />
+    <hr />
+    <h1>Random Verse</h1>
+    <h2 id="random-verse">Random Verse Here</h2>
+    <button type="button" id="random-verse" onclick="getRandomVerse()">
+      Randomize Verse
+    </button>
+  </body>
+  <script>
+    getJohnVerse();
+    function getJohnVerse() {
+      const verse = "john 3:16";
+      const API_url = `https://bible-api.com/${encodeURIComponent(verse)}`; // ${encodeURIComponent(verse)} used to embed dynamic values inside strings, Ex: "john 3:16" → turns into "john%203%3A16"
+
+      fetch(API_url)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          document.getElementById("bible-verse").textContent = data.text;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById("bible-verse").textContent =
+            "Error loading verse.";
+        });
+    }
+
+    // Random Verse
+    getRandomVerse();
+    function getRandomVerse() {
+      const API_url = `https://bible-api.com/data/web/random`; // ${encodeURIComponent(verse)} used to embed dynamic values inside strings, Ex: "john 3:16" → turns into "john%203%3A16"
+
+      fetch(API_url)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          document.getElementById("random-verse").textContent =
+            data.random_verse.text;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          document.getElementById("random-verse").textContent =
+            "Error loading verse.";
+        });
+    }
+  </script>
+</html>
